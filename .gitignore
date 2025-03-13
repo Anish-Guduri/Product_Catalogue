@@ -1,0 +1,7 @@
+# Node dependencies
+node_modules/
+# React build files
+frontend/build/
+# Environment files
+.env
+.DS_Store
