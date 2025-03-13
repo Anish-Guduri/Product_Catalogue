@@ -135,6 +135,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
+
       - name: 'Deploy Frontend to Azure Static Web App'
         id: deploy-to-webapp
         uses: azure/static-web-apps-deploy@v1
