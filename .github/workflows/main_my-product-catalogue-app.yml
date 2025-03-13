@@ -75,7 +75,7 @@ jobs:
         id: deploy-backend
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'my-product-catalogue-backend'
+          app-name: 'my-product-catalogue-app'
           slot-name: 'Production'
           package: .
 
