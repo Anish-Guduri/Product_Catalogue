@@ -1,7 +1,8 @@
-# Node dependencies
-node_modules/
-# React build files
+# Ignore node_modules in both backend and frontend
+**/node_modules/
+# Ignore React build output
 frontend/build/
-# Environment files
+# Environment files (do not push secrets)
+*.env
 .env
 .DS_Store
