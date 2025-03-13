@@ -1,5 +1,26 @@
 // server.js
 
+// const express = require('express');
+// const path = require('path');
+// // ...other requires
+
+// const app = express();
+
+// // Serve the React app's static files
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// // Place your API routes above the catch-all route
+// // For example, your /api/products route goes here
+
+// // The catch-all route: for any request that doesn't match an API route, serve the index.html
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// });
+
+// const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
 require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
