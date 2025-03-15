@@ -147,10 +147,10 @@ jobs:
           inlineScript: |
             az account show
 
-      # - name: 'Deploy to Azure Web App'
-      #   id: deploy-to-webapp
-      #   uses: azure/webapps-deploy@v3
-      #   with:
-      #     app-name: 'product-catalogue-backend-app1'
-      #     slot-name: 'Production'
-      #     package: product-catalogue-backend
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'product-catalogue-backend-app1'
+          slot-name: 'Production'
+          package: product-catalogue-backend
