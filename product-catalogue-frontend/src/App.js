@@ -10,11 +10,26 @@ export default function App() {
   const [filter, setFilter] = useState('All');
   const [showPopup, setShowPopup] = useState(false);
 
-  useEffect(() => {
-    fetch('my-product-catalogue-app2.azurewebsites.net/api/products')
-      .then(res => res.json())
-      .then(data => setProducts(data));
-  }, []);
+//   useEffect(() => {
+//   //   fetch('my-product-catalogue-app2.azurewebsites.net/api/products')
+//   //     .then(res => res.json())
+//   //     .then(data => setProducts(data));
+//   fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(data)
+// })
+
+//   }, []);
+
+useEffect(() => {
+  fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products")
+    .then(res => res.json())
+    .then(data => setProducts(data))
+    .catch(error => console.error("Error fetching products:", error));
+}, []);
 
   const handleAddProduct = (newProduct) => {
     setProducts([...products, newProduct]);
