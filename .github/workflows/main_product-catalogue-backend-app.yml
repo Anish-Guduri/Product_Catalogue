@@ -151,7 +151,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'product-catalogue-backend-app1'
+          app-name: 'my-product-catalogue-app2'
           slot-name: 'Production'
           package: product-catalogue-backend
           allow-no-subscriptions: true
