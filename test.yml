@@ -22,14 +22,14 @@ jobs:
           node-version: '18.x'
 
       - name: npm install, build, and test
-        working-directory: product-catalogue-backend
+        working-directory: product-catalogue-frontend
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
 
       - name: Zip artifact for deployment
-        working-directory: product-catalogue-backend
+        working-directory: product-catalogue-frontend
         run: zip -r ../release.zip .
 
       - name: Upload artifact for deployment job
@@ -55,7 +55,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d product-catalogue-backend
+        run: unzip release.zip -d product-catalogue-frontend
 
       - name: Azure Login
         uses: azure/login@v2
@@ -75,9 +75,9 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'my-product-catalogue-app2'
+          app-name: 'my-clothin-store-app'  
           slot-name: 'Production'
-          package: product-catalogue-backend  # Fixed the path
+          package: product-catalogue-frontend 
 
 
 
