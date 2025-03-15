@@ -33,10 +33,10 @@ async function uploadToBlob(fileBuffer, fileName, mimetype) {
     blobHTTPHeaders: { blobContentType: mimetype }
   });
 
-  // Generate a short-lived SAS URL for read access
-  const ONE_HOUR = 60; // in minutes
-  const now = new Date();
-  const expiresOn = new Date(now.valueOf() + ONE_HOUR * 60 * 1000); // 1 hour from now
+  // // Generate a short-lived SAS URL for read access
+  // const ONE_HOUR = 60; // in minutes
+  // const now = new Date();
+  // const expiresOn = new Date(now.valueOf() + ONE_HOUR * 60 * 1000); // 1 hour from now
 
   // Parse storage account name from the connection string
   const accountNameMatch = process.env.AZURE_STORAGE_CONNECTION_STRING.match(/AccountName=(.*?);/);
@@ -62,7 +62,7 @@ async function uploadToBlob(fileBuffer, fileName, mimetype) {
     blobName: fileName,
     permissions: BlobSASPermissions.parse("r"), // "r" = read permission
     startsOn: now,
-    expiresOn: expiresOn
+    // expiresOn: expiresOn
   };
 
   // Generate the SAS token
