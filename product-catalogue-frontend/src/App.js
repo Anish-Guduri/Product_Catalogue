@@ -11,7 +11,7 @@ export default function App() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    fetch('/api/products')
+    fetch('my-product-catalogue-app2.azurewebsites.net/api/products')
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);
