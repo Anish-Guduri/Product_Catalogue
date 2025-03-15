@@ -154,3 +154,4 @@ jobs:
           app-name: 'product-catalogue-backend-app1'
           slot-name: 'Production'
           package: product-catalogue-backend
+          allow-no-subscriptions: true
