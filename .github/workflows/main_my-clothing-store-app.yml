@@ -1,74 +1,53 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - my-clothing-store-app
+name: Azure Web App CI/CD
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
 
 jobs:
-  build:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+    name: Build and Deploy Job
     permissions:
-      contents: read #This is required for actions/checkout
-
+      id-token: write
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '18' # Change to your required Node.js version
 
-      - name: npm install, build, and test
+      - name: Install Dependencies
         run: |
+          cd product-catalogue-frontend
           npm install
-          npm run build --if-present
-          npm run test --if-present
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+      - name: Build Application
+        run: |
+          cd product-catalogue-frontend
+          npm run build
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
-          name: node-app
-          path: release.zip
+          app-name: "your-web-app-name" # Replace with your Azure Web App name
+          slot-name: "production" # Change if using deployment slots
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: "product-catalogue-frontend/build" # Path to the built project
 
-  deploy:
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+    name: Close Pull Request Job
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3A715E54A1E64F7DAB58CC730DA231C7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3CE34F570F92415E8E38C3EEA2E3AE7A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_98169A0B4958480F982EA26E794C2503 }}
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'my-clothing-store-app'
-          slot-name: 'Production'
-          package: .
-          
+      - name: PR Closed Notification
+        run: echo "Pull request has been closed."
