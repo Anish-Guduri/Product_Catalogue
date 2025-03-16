@@ -39,7 +39,7 @@ export default function App() {
       }
   
       // Wait for the server to return the product with the image
-      const savedProduct = await response.json();
+      // const savedProduct = await response.json();
   
       // Fetch updated products to ensure the image is included
       fetchUpdatedProducts();
