@@ -7,77 +7,176 @@ export default function App() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("All");
   const [showPopup, setShowPopup] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false); // New state to track updates
 
   // Fetch products on component mount
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  // Function to fetch all products
   const fetchProducts = async () => {
     try {
-      setIsUpdating(true); // Prevent duplicate renders while fetching
       const res = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products");
-      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-      
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
       const updatedProducts = await res.json();
       setProducts(updatedProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
-    } finally {
-      setIsUpdating(false);
     }
   };
 
+  // Handle adding a new product
   const handleAddProduct = async (newProduct) => {
     try {
-      setIsUpdating(true); // Indicate update is in progress
-      
-      const response = await fetch(
-        "https://my-product-catalogue-app2.azurewebsites.net/api/products",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newProduct),
-        }
-      );
+      // const response = await fetch(
+      //   "https://my-product-catalogue-app2.azurewebsites.net/api/products",
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(newProduct),
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
 
-      // Wait for backend to process before updating UI
+      // Re-fetch products to get the latest list (including the new item)
       await fetchProducts();
-
       setShowPopup(false);
     } catch (error) {
       console.error("Error adding product:", error);
-    } finally {
-      setIsUpdating(false);
     }
   };
 
-  const filteredProducts = filter === "All" ? products : products.filter((product) => product.type === filter);
+  const filteredProducts = filter === "All"
+    ? products
+    : products.filter((product) => product.type === filter);
 
   return (
     <div>
       <Navbar onAddItem={() => setShowPopup(true)} onFilter={setFilter} />
       {showPopup && <AddItemPopup onClose={() => setShowPopup(false)} onAdd={handleAddProduct} />}
-      
+
       <div className="container mt-4">
-        {isUpdating && <p>Loading...</p>} {/* Show loading state if updating */}
         <div className="row">
-          {!isUpdating &&
-            filteredProducts.map((product) => (
-              <div key={product.id} className="col-md-4 mb-3">
-                <ProductCard product={product} />
-              </div>
-            ))}
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="col-md-4 mb-3">
+              <ProductCard product={product} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import Navbar from "./components/Navbar";
+// import AddItemPopup from "./components/AddItemPopup";
+// import ProductCard from "./components/ProductCard";
+
+// export default function App() {
+//   const [products, setProducts] = useState([]);
+//   const [filter, setFilter] = useState("All");
+//   const [showPopup, setShowPopup] = useState(false);
+//   const [isUpdating, setIsUpdating] = useState(false); // New state to track updates
+
+//   // Fetch products on component mount
+//   useEffect(() => {
+//     fetchProducts();
+//   }, []);
+
+//   const fetchProducts = async () => {
+//     try {
+//       setIsUpdating(true); // Prevent duplicate renders while fetching
+//       const res = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products");
+//       if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+      
+//       const updatedProducts = await res.json();
+//       setProducts(updatedProducts);
+//     } catch (error) {
+//       console.error("Error fetching products:", error);
+//     } finally {
+//       setIsUpdating(false);
+//     }
+//   };
+
+//   const handleAddProduct = async (newProduct) => {
+//     try {
+//       // setIsUpdating(true); // Indicate update is in progress
+      
+//       // const response = await fetch(
+//       //   "https://my-product-catalogue-app2.azurewebsites.net/api/products",
+//       //   {
+//       //     method: "POST",
+//       //     headers: { "Content-Type": "application/json" },
+//       //     body: JSON.stringify(newProduct),
+//       //   }
+//       // );
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       // Wait for backend to process before updating UI
+//       await fetchProducts();
+
+//       setShowPopup(false);
+//     } catch (error) {
+//       console.error("Error adding product:", error);
+//     } finally {
+//       setIsUpdating(false);
+//     }
+//   };
+
+//   const filteredProducts = filter === "All" ? products : products.filter((product) => product.type === filter);
+
+//   return (
+//     <div>
+//       <Navbar onAddItem={() => setShowPopup(true)} onFilter={setFilter} />
+//       {showPopup && <AddItemPopup onClose={() => setShowPopup(false)} onAdd={handleAddProduct} />}
+      
+//       <div className="container mt-4">
+//         {isUpdating && <p>Loading...</p>} {/* Show loading state if updating */}
+//         <div className="row">
+//           {!isUpdating &&
+//             filteredProducts.map((product) => (
+//               <div key={product.id} className="col-md-4 mb-3">
+//                 <ProductCard product={product} />
+//               </div>
+//             ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 
 
