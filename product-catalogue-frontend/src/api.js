@@ -1,6 +1,6 @@
 
 
-const API_URL = 'http://my-product-catalogue-app2.azurewebsites.net/api/products';
+const API_URL = 'https://my-product-catalogue-app2.azurewebsites.net/api/products';
 
 export const addProduct = async (form) => {
   const formData = new FormData();
