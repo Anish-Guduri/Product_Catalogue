@@ -21,77 +21,80 @@ export default function App() {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  // // Function to add a product
-  // const handleAddProduct = async (newProduct) => {
-  //   try {
-  //     const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(newProduct),
-  //     });
+  // Function to add a product
+  const handleAddProduct = async (newProduct) => {
+    try {
+      const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
+        method: "P",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-  //     const savedProduct = await response.json();
-  //     setProducts([...products, savedProduct]); // Add new product to state
-  //     setShowPopup(false); // Close popup after adding
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //   }
-  // };
+      const savedProduct = await response.json();
+      setProducts([...products, savedProduct]); // Add new product to state
+      setShowPopup(false); // Close popup after adding
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
 
-  // const handleAddProduct = async (newProduct) => {
-  //   try {
-  //     const response = await fetch("https://your-backend.azurewebsites.net/api/products", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(newProduct),
-  //     });
+//   const handleAddProduct = async (newProduct) => {
+//     try {
+//       const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(newProduct),
+//       });
   
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+//       console.log("Response:", response);
+// const responseData = await response.json();
+// console.log("Response JSON:", responseData);
+
+//       // The server returns the newly created product, with the correct ID/image
+//       const savedProduct = await response.json();
   
-  //     // The server returns the newly created product, with the correct ID/image
-  //     const savedProduct = await response.json();
-  
-  //     // Use the server's product (with image) in your local state
-  //     setProducts((prev) => [...prev, savedProduct]);
-  //     fetchProducts();
-  //     setShowPopup(false);
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //   }
-  // };
+//       // Use the server's product (with image) in your local state
+//       setProducts((prev) => [...prev, savedProduct]);
+//       // fetchProducts();
+//       setShowPopup(false);
+//     } catch (error) {
+//       console.error("Error adding product:", error);
+//     }
+//   };
   
 
     // Function to add a product (updates state with server response)
-    const handleAddProduct = async (newProduct) => {
-      try {
-        const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newProduct),
-        });
+  //   const handleAddProduct = async (newProduct) => {
+  //     try {
+  //       const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(newProduct),
+  //       });
     
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
     
-        // The server returns the newly created product, complete with ID and image
-        // const savedProduct = await response.json();
+  //       // The server returns the newly created product, complete with ID and image
+  //       // const savedProduct = await response.json();
     
-        // Update local state with the product returned by the server
-        setProducts((prevProducts) => [...prevProducts, newProduct]);
-        setShowPopup(false);
-      } catch (error) {
-        console.error("Error adding product:", error);
-      }
-    };
+  //       // Update local state with the product returned by the server
+  //       setProducts((prevProducts) => [...prevProducts, newProduct]);
+  //       setShowPopup(false);
+  //     } catch (error) {
+  //       console.error("Error adding product:", error);
+  //     }
+  //   };
 
   const filteredProducts = filter === "All" ? products : products.filter((product) => product.type === filter);
 
