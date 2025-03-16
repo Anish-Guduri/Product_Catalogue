@@ -21,28 +21,110 @@ export default function App() {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
-  // Function to add a product
+
+
   const handleAddProduct = async (newProduct) => {
     try {
-      const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
-
+      const response = await fetch(
+        "https://my-product-catalogue-app2.azurewebsites.net/api/products",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newProduct),
+        }
+      );
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
+      // Wait for the server to return the product with the image
       const savedProduct = await response.json();
-      setProducts([...products, savedProduct]); // Add new product to state
-      setShowPopup(false); // Close popup after adding
+  
+      // Fetch updated products to ensure the image is included
+      fetchUpdatedProducts();
+  
+      setShowPopup(false);
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
+  
+  // Function to fetch updated product list
+  const fetchUpdatedProducts = async () => {
+    try {
+      const res = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products");
+      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+      
+      const updatedProducts = await res.json();
+      setProducts(updatedProducts); // Update state with latest data
+    } catch (error) {
+      console.error("Error fetching updated products:", error);
+    }
+  };
+
+  const filteredProducts = filter === "All" ? products : products.filter((product) => product.type === filter);
+
+  return (
+    <div>
+      <Navbar onAddItem={() => setShowPopup(true)} onFilter={setFilter} />
+      {showPopup && <AddItemPopup onClose={() => setShowPopup(false)} onAdd={handleAddProduct} />}
+      <div className="container mt-4">
+        <div className="row">
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="col-md-4 mb-3">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // // Function to add a product
+  // const handleAddProduct = async (newProduct) => {
+  //   try {
+  //     const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(newProduct),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const savedProduct = await response.json();
+  //     setProducts([...products, savedProduct]); // Add new product to state
+  //     setShowPopup(false); // Close popup after adding
+  //   } catch (error) {
+  //     console.error("Error adding product:", error);
+  //   }
+  // };
 
 //   const handleAddProduct = async (newProduct) => {
 //     try {
@@ -95,27 +177,6 @@ export default function App() {
   //       console.error("Error adding product:", error);
   //     }
   //   };
-
-  const filteredProducts = filter === "All" ? products : products.filter((product) => product.type === filter);
-
-  return (
-    <div>
-      <Navbar onAddItem={() => setShowPopup(true)} onFilter={setFilter} />
-      {showPopup && <AddItemPopup onClose={() => setShowPopup(false)} onAdd={handleAddProduct} />}
-      <div className="container mt-4">
-        <div className="row">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="col-md-4 mb-3">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
 
 
 
