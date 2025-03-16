@@ -129,7 +129,9 @@ const { uploadToBlob } = require('./blobHelper');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://delightful-ocean-077cef000.6.azurestaticapps.net"
+}));
 
 
 const storage = multer.memoryStorage();
