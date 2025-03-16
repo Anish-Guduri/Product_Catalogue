@@ -125,12 +125,12 @@ const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
 const { sql, sqlConfig } = require('./dbConfig');
-const { uploadToBlob } = require('./blobHelper');
+const { uploadToBlob } = require('./blobhelper');
 
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: "https://delightful-ocean-077cef000.6.azurestaticapps.net"
+  origin: "https://delightful-ocean-077cef000.6.azurestaticapps.net" || "http://localhost:3002"
 }));
 
 
