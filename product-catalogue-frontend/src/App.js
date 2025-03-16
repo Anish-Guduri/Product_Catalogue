@@ -25,7 +25,7 @@ export default function App() {
   const handleAddProduct = async (newProduct) => {
     try {
       const response = await fetch("https://my-product-catalogue-app2.azurewebsites.net/api/products", {
-        method: "P",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
